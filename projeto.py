@@ -50,4 +50,6 @@ ami = AMI('010010')
 
 print(ami)
 
+grafico(ami)
+
 print(AMI_reverso(ami))
