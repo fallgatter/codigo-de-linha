@@ -16,13 +16,20 @@ def AMI(binario):
     cod = []
     neg = 1
     for bit in binario:
-        if bit == '0':
-            cod.append(0)
-        elif bit == '1':
-            cod.append(neg)
+        cod.append(int(bit)*neg)
+        if int(bit) == 1:
             neg *= -1
     cod.append(cod[-1])
     return cod
+
+def AMI_reverso(cod):
+    binario = ''
+    for i in cod:
+        if i == -1:
+            binario += '1'
+        else:
+            binario += str(i)
+    return binario
 
 def grafico(cod):
     plt.step(range(len(cod)), cod, where='post')
@@ -33,18 +40,14 @@ def grafico(cod):
     plt.grid()
     plt.show()
 
-texto = 'Oiê'
+texto = 'Òíê'
 
 binario= texto_para_binario(texto)
 
 print(binario)
 
-ami= AMI(binario)
-
-grafico(ami)
+ami = AMI('010010')
 
 print(ami)
 
-texto = binario_para_texto(binario)
-
-print(texto)
+print(AMI_reverso(ami))
