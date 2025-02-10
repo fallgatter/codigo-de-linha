@@ -21,7 +21,7 @@ def start_server(host='0.0.0.0', port=5555):
     print(f"Recebido: {data.decode('utf-8')}")
     
     # Envia uma resposta
-    client_socket.send(str(ami).encode())
+    client_socket.send(str('oi').encode())
     
     # Fecha a conexão
     client_socket.close()

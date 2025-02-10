@@ -37,3 +37,14 @@ def AMI_reverso(cod):
         else:
             binario += str(i)
     return binario
+
+def grafico(cod):
+    graf = cod.copy()
+    graf.append(graf[-1])
+    plt.step(range(len(graf)), graf, where='post')
+    plt.title('AMI')
+    plt.xlabel('Tempo')
+    plt.xticks(range(len(graf)))
+    plt.ylabel('Amplitude')
+    plt.grid()
+    plt.show()
