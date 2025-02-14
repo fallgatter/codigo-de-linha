@@ -1,10 +1,5 @@
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
 import matplotlib.pyplot as plt
 import socket
-import tkinter as tk
-import threading
-import string
 
 def xor_cipher(texto, chave):
     resultado = ""
