@@ -6,6 +6,11 @@ import threading
 import tkinter as tk
 import threading
 
+def xor_cipher(texto, chave):
+    resultado = ""
+    for i, char in enumerate(texto):
+        resultado += chr(ord(char) ^ ord(chave[i % len(chave)]))
+    return resultado
 
 def recarregar():
     refresh.set(True)
@@ -18,36 +23,6 @@ def toggle_server():
     else:
         print("Servidor parado")
 
-
-class RSA:
-    def __init__(self):
-        self.private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=2048
-        )
-        self.public_key = self.private_key.public_key()
-
-    def encrypt(self, message, public_key):
-        encrypted_message = public_key.encrypt(
-            message.encode(),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-        return encrypted_message
-
-    def decrypt(self, encrypted_message) -> bytes:
-        decrypted_message = self.private_key.decrypt(
-            encrypted_message,
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-        return decrypted_message
 
 def texto_para_binario(texto):
     binario = ''
@@ -62,10 +37,10 @@ def binario_para_texto(binario):
     return texto
 
 def AMI(binario):
-    cod = []
+    cod = ''
     neg = 1
     for bit in binario:
-        cod.append(int(bit)*neg)
+        cod += str(int(bit)*neg)
         if int(bit) == 1:
             neg *= -1
     return cod
@@ -73,15 +48,22 @@ def AMI(binario):
 def AMI_reverso(cod):
     binario = ''
     for i in cod:
-        if i == -1:
-            binario += '1'
-        else:
-            binario += str(i)
+        if i == '1' or i == '0':
+            binario += i
     return binario
 
 def grafico(cod):
-    graf = cod.copy()
+    graf = []
+    i = 0
+    while i < len(cod):
+        if cod[i] == '0' or cod[i] == '1':
+            graf.append(int(cod[i]))
+        else:
+            graf.append(-1)
+            i+=1
+        i+=1
     graf.append(graf[-1])
+    plt.xticks(rotation=90)
     plt.step(range(len(graf)), graf, where='post')
     plt.title('AMI')
     plt.xlabel('Tempo')
@@ -90,8 +72,7 @@ def grafico(cod):
     plt.grid()
     plt.show()
 
-def start_receiver(host='0.0.0.0', port=5555):
-    rsa = RSA()
+def start_receiver(host='172.20.10.8', port=5555):
 
     receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -103,25 +84,15 @@ def start_receiver(host='0.0.0.0', port=5555):
     sender_socket, sender_address = receiver_socket.accept()
     print(f"Conexão estabelecida com {sender_address}")
 
-    sender_socket.send(rsa.public_key.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    ))
-
-
     while server_var.get():
         if refresh.get():
-            encrypted_message = sender_socket.recv(1024)
-            grafico(encrypted_message)
-            binary = AMI_reverso(encrypted_message)
-            message = binario_para_texto(binary)
-            decrypted_message = rsa.decrypt(message)
-            print(decrypted_message)
-            label2.config(text = decrypted_message)
-            refresh.set(False)
-
-
-    print(f"Recebido: {decrypted_message}")
+            cod_linha = sender_socket.recv(1024).decode()
+            key = sender_socket.recv(1024).decode()
+            grafico(cod_linha)
+            cod_rev = AMI_reverso(cod_linha)
+            text = binario_para_texto(cod_rev)
+            decrypted_message = xor_cipher(text, key)
+            print(f"Recebido: {decrypted_message}")
 
     sender_socket.close()
     receiver_socket.close()
@@ -144,7 +115,7 @@ if __name__ == "__main__":
     label3 = tk.Label(base, text="Mensagem recebida pós criptografia", font=('Arial', 18))
     label3.pack(padx=20, pady=20)
 
-    label4 = tk.Label(base,  width = 70, height=5,text="", font=('Arial', 18), background = 'grey')
+    label4 = tk.Label(base,  width = 90, height=5,text="", font=('Arial', 18), background = 'grey')
     label4.pack(padx=10, pady=10)
 
 

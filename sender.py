@@ -6,6 +6,12 @@ import tkinter as tk
 import threading
 import string
 
+def xor_cipher(texto, chave):
+    resultado = ""
+    for i, char in enumerate(texto):
+        resultado += chr(ord(char) ^ ord(chave[i % len(chave)]))
+    return resultado
+
 def texto_para_binario(texto):
     binario = ''
     for char in texto:
@@ -41,7 +47,7 @@ def grafico(cod):
             graf.append(int(cod[i]))
         else:
             graf.append(-1)
-            i += 1    
+            i += 1
     graf.append(graf[-1])
     plt.xticks(rotation=90)
     plt.step(range(len(graf)), graf, where='post')
@@ -59,12 +65,14 @@ def start_sender(receiver_host='172.20.10.8', receiver_port=5555):
     sender_socket.connect((receiver_host, receiver_port))
 
     message = "é os guri"
-    #criptografar
-    binary = texto_para_binario(message)
+    key = "nói é bom"
+    encrypted_message = xor_cipher(message, key)
+    binary = texto_para_binario(encrypted_message)
     cod_linha = AMI(binary)
 
     grafico(cod_linha)
 
+    sender_socket.send(key.encode())
     sender_socket.send(cod_linha.encode())
 
     sender_socket.close()
