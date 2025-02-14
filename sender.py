@@ -46,10 +46,10 @@ def binario_para_texto(binario):
     return texto
 
 def AMI(binario):
-    cod = []
+    cod = ''
     neg = 1
     for bit in binario:
-        cod.append(int(bit)*neg)
+        cod += str(int(bit)*neg)
         if int(bit) == 1:
             neg *= -1
     return cod
@@ -64,7 +64,13 @@ def AMI_reverso(cod):
     return binario
 
 def grafico(cod):
-    graf = cod.copy()
+    graf = []
+    for i in range(len(cod)):
+        if cod[i] == '0' or cod[i] == '1':
+            graf.append(int(cod[i]))
+        else:
+            graf.append(-1)
+            i += 1    
     graf.append(graf[-1])
     plt.step(range(len(graf)), graf, where='post')
     plt.title('AMI')
@@ -74,25 +80,12 @@ def grafico(cod):
     plt.grid()
     plt.show()
 
-def start_sender(receiver_host='192.168.1.100', receiver_port=12345):
-    rsa = RSA()
-    message = 'oi'
-    sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+texto="oi"
+binario=texto_para_binario(texto)
+print(binario)
+amit=AMI(binario)
+print(amit)
+grafico(amit)
 
-    sender_socket.connect((receiver_host, receiver_port))
-
-    public_key_pem = sender_socket.recv(1024)
-    public_key = serialization.load_pem_public_key(public_key_pem)
-    encrypted_message = rsa.encrypt(message, public_key)
-    binary = texto_para_binario(encrypted_message)
-    AMI = AMI(binary)
-
-    grafico(AMI)
-    sender_socket.send(AMI)
-
-    sender_socket.close()
-
-if __name__ == "__main__":
-    start_sender()
 
 
