@@ -21,7 +21,6 @@ def toggle_server():
     else:
         print("Servidor parado")
 
-
 def texto_para_binario(texto):
     binario = ''
     for char in texto:
@@ -82,14 +81,15 @@ def start_receiver(host='172.20.10.8', port=5555):
     sender_socket, sender_address = receiver_socket.accept()
     print(f"Conexão estabelecida com {sender_address}")
 
+
     while server_var.get():
         if refresh.get():
-            cod_linha = sender_socket.recv(1024).decode()
             key = sender_socket.recv(1024).decode()
+            cod_linha = sender_socket.recv(1024).decode()
             grafico(cod_linha)
             cod_rev = AMI_reverso(cod_linha)
             text = binario_para_texto(cod_rev)
-            decrypted_message = xor_cipher(text, key)
+            decrypted_message = xor_cipher(key, text)
             print(f"Recebido: {decrypted_message}")
 
     sender_socket.close()

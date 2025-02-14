@@ -74,8 +74,3 @@ def start_sender(receiver_host='172.20.10.8', receiver_port=5555):
 
 start_sender()
 
-# grafico(cod_linha)
-# cod_rev = AMI_reverso(cod_linha)
-# text = binario_para_texto(cod_rev)
-# #descriptografar
-# print(text)
