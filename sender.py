@@ -1,5 +1,18 @@
 import matplotlib.pyplot as plt
 import socket
+import tkinter as tk
+import threading
+
+def enviar_mensagem():
+    send_var.set(True)
+
+def toggle_server():
+    if server_var.get():
+        if not thread.is_alive():
+            thread.start()
+            print("Servidor iniciado!")
+    else:
+        print("Servidor parado")
 
 def xor_cipher(texto, chave):
     resultado = ""
@@ -53,24 +66,73 @@ def grafico(cod):
     plt.grid()
     plt.show()
 
-def start_sender(receiver_host='172.20.10.8', receiver_port=5555):
+def start_sender(receiver_host='0.0.0.0', receiver_port=5555):
 
     sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     sender_socket.connect((receiver_host, receiver_port))
 
-    message = "é os guri"
-    key = "nói é bom"
-    encrypted_message = xor_cipher(message, key)
-    binary = texto_para_binario(encrypted_message)
-    cod_linha = AMI(binary)
-
-    grafico(cod_linha)
+    key = "nói é foda"
 
     sender_socket.send(key.encode())
-    sender_socket.send(cod_linha.encode())
+
+    while server_var.get():
+        if send_var.get():
+            message = textbox.get("1.0", "end-1c")
+            encrypted_message = xor_cipher(message, key)
+            binary = texto_para_binario(encrypted_message)
+            label5.config(text = str(binary))
+            cod_linha = AMI(binary)
+            send_var.set(False)
+            grafico(cod_linha)
+            sender_socket.send(cod_linha.encode())
 
     sender_socket.close()
 
-start_sender()
+if __name__ == "__main__":
+    # Criando a thread da comunicação
+    thread = threading.Thread(target=start_sender, daemon=True)
+
+    # Criando a interface gráfica
+    base = tk.Tk()
+    base.geometry("900x900")
+    base.title("Receiver")
+
+    # Criando a label de indentificação
+    label = tk.Label(base, text="Digite sua mensagem", font=('Arial', 18))
+    label.pack(padx=20, pady=20)
+
+    # Criando a variável de envio
+    send_var = tk.BooleanVar()
+
+    # Criando a caixa de texto que o usuário preenche
+    textbox = tk.Text(base, height=1, font=('Arial', 18))
+    textbox.pack(padx=20)
+
+    # Criando a label de indentificação
+    label2 = tk.Label(base, text="Mensagem Criptografada", font=('Arial', 18))
+    label2.pack(padx=20, pady=20)
+
+    # Criando a label de indentificação
+    label3 = tk.Label(base, height = 5, text="monke", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
+    label3.pack()
+
+    # Criando a label de indentificação
+    label4 = tk.Label(base, height = 1, text="Binário", font=('Arial', 18))
+    label4.pack()
+
+    label5 = tk.Label(base, height = 10, text="", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
+    label5.pack()
+
+    # Criando o button que o usuário vai clicar para enviar
+    button = tk.Button(base, text="Enviar", command=enviar_mensagem)
+    button.pack(pady=20)
+
+    # Checkbutton para ativar/desativar o servidor
+    server_var = tk.BooleanVar()
+    check = tk.Checkbutton(base, text="Servidor", variable=server_var, command=toggle_server)
+    check.pack()
+
+    # Loop principal
+    base.mainloop()
 

@@ -1,3 +1,5 @@
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
 import matplotlib.pyplot as plt
 import socket
 import threading
@@ -115,7 +117,6 @@ if __name__ == "__main__":
 
     label4 = tk.Label(base,  width = 90, height=5,text="", font=('Arial', 18), background = 'grey')
     label4.pack(padx=10, pady=10)
-
 
     refresh = tk.BooleanVar()
     btrefresh = tk.Button(base, text="receber", command=recarregar)
