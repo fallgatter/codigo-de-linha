@@ -117,7 +117,7 @@ if __name__ == "__main__":
     textbox.pack(padx=20)
 
     # Criando a label de indentificação
-    label2 = tk.Label(base, text="Mensagem Criptografada", font=('Arial', 18))
+    label2 = tk.Label(base, text="Mensagem criptografada", font=('Arial', 18))
     label2.pack(padx=20, pady=20)
 
     # Criando a label de indentificação
