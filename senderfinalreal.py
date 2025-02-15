@@ -106,7 +106,7 @@ if __name__ == "__main__":
     base.title("Receiver")
 
     # Criando a label de indentificação
-    label = tk.Label(base, text="Digite sua mensagem", font=('Arial', 18))
+    label = tk.Label(base, text="Mensagem", font=('Arial', 18))
     label.pack(padx=20, pady=20)
 
     # Criando a variável de envio
