@@ -110,13 +110,13 @@ if __name__ == "__main__":
     label = tk.Label(base, text="Mensagem recebida criptografada", font=('Arial', 18))
     label.pack(padx=20, pady=20)
 
-    label2 = tk.Label(base, height=5, width=70, text="", font=('Arial', 18), background='grey')
+    label2 = tk.Label(base, height=5, width=70, text="    ", font=('Arial', 18), background='grey')
     label2.pack(padx=10, pady=10)
 
     label3 = tk.Label(base, text="Mensagem recebida descriptografada", font=('Arial', 18))
     label3.pack(padx=20, pady=20)
 
-    label4 = tk.Label(base, width=90, height=5, text="", font=('Arial', 18), background='grey')
+    label4 = tk.Label(base, width=90, height=5, text="    ", font=('Arial', 18), background='grey')
     label4.pack(padx=10, pady=10)
 
     refresh = tk.BooleanVar()
