@@ -121,14 +121,14 @@ if __name__ == "__main__":
     label2.pack(padx=20, pady=20)
 
     # Criando a label de indentificação
-    label3 = tk.Label(base, height = 5, text="monke", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
+    label3 = tk.Label(base, height = 5, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
     label3.pack()
 
     # Criando a label de indentificação
     label4 = tk.Label(base, height = 1, text="Binário", font=('Arial', 18))
     label4.pack()
 
-    label5 = tk.Label(base, height = 10, text="", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
+    label5 = tk.Label(base, height = 10, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
     label5.pack()
 
     # Criando o button que o usuário vai clicar para enviar
