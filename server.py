@@ -5,7 +5,7 @@ import socket
 import threading
 import tkinter as tk
 
-def xor_cipher(texto, chave):
+def xor_cipher(texto, chave): #Ideia rtirada do wikipedia
     resultado = ""
     for i, char in enumerate(texto):
         resultado += chr(ord(char) ^ ord(chave[i % len(chave)]))
@@ -74,7 +74,7 @@ def grafico(cod):
 
     base.after(100, exibir_grafico)
 
-def start_receiver(host='0.0.0.0', port=5552):
+def start_receiver(host='0.0.0.0', port=5552):   #Socket configurado com auxílio da documentação de Python e tópicos do StackOverflow
 
 
     host = textbox_host.get("1.0", "end-1c")
