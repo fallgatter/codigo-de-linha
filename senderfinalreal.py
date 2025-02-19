@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     base = tk.Tk()
     base.geometry("1000x1000")
-    base.title("Receiver")
+    base.title("Sender")
 
     label = tk.Label(base, text="Mensagem", font=('Arial', 18))
     label.pack(padx=20, pady=20)
