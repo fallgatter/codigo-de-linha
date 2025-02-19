@@ -6,7 +6,7 @@ import threading
 def enviar_mensagem():
     send_var.set(True)
 
-def toggle_server():
+def toggle_server(): 
     if server_var.get():
         if not thread.is_alive():
             thread.start()
@@ -14,7 +14,7 @@ def toggle_server():
     else:
         print("Servidor parado")
 
-def xor_cipher(texto, chave):
+def xor_cipher(texto, chave): #Ideia retirada do Wikipedia
     resultado = ""
     for i, char in enumerate(texto):
         resultado += chr(ord(char) ^ ord(chave[i % len(chave)]))
@@ -23,7 +23,7 @@ def xor_cipher(texto, chave):
 def texto_para_binario(texto):
     binario = ''
     for char in texto:
-        binario += '{:08b}'.format(ord(char))
+        binario += '{:08b}'.format(ord(char)) #
     return binario
 
 def binario_para_texto(binario):
@@ -71,7 +71,7 @@ def grafico(cod):
 
     base.after(100, exibir_grafico)
 
-def start_sender(receiver_host='0.0.0.0', receiver_port=5552):
+def start_sender(receiver_host='0.0.0.0', receiver_port=5552): #Socket configurado com auxílio da documentação do Python e tópicos do StackOverflow
 
     receiver_host = textbox_host.get("1.0", "end-1c")
 
