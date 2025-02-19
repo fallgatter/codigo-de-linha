@@ -5,7 +5,7 @@ import socket
 import threading
 import tkinter as tk
 
-def xor_cipher(texto, chave):
+def xor_cipher(texto, chave): #Ideia de algoritimo tirada da wikipedia
     resultado = ""
     for i, char in enumerate(texto):
         resultado += chr(ord(char) ^ ord(chave[i % len(chave)]))
@@ -14,7 +14,7 @@ def xor_cipher(texto, chave):
 def recarregar():
     refresh.set(True)
 
-def toggle_server():
+def toggle_server(): #Thread padrão de inicar a comunicação
     if server_var.get():
         if not thread.is_alive():
             thread.start()
@@ -74,7 +74,7 @@ def grafico(cod):
 
     base.after(100, exibir_grafico)
 
-def start_receiver(host='0.0.0.0', port=5552):
+def start_receiver(host='0.0.0.0', port=5552): #Modelo padrão de se inicar o socket, fornecido pela lin do socket de python
 
 
     host = textbox_host.get("1.0", "end-1c")
