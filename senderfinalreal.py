@@ -73,11 +73,15 @@ def grafico(cod):
 
 def start_sender(receiver_host='0.0.0.0', receiver_port=5552):
 
+    receiver_host = textbox_host.get("1.0", "end-1c")
+
+    receiver_port = int(textbox_port.get("1.0", "end-1c"))
+
     sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     sender_socket.connect((receiver_host, receiver_port))
 
-    key = "1234!"
+    key =  textbox_chave.get("1.0", "end-1c")
 
     sender_socket.send(key.encode())
 
@@ -100,31 +104,50 @@ if __name__ == "__main__":
     thread = threading.Thread(target=start_sender, daemon=True)
 
     base = tk.Tk()
-    base.geometry("900x900")
-    base.title("Receiver")
+    base.geometry("1000x700")
+    base.title("Sender")
 
     label = tk.Label(base, text="Mensagem", font=('Arial', 18))
-    label.pack(padx=20, pady=20)
+    label.pack(padx=20, pady=5)
 
     send_var = tk.BooleanVar()
 
     textbox = tk.Text(base, height=1, font=('Arial', 18))
     textbox.pack(padx=20)
 
-    label2 = tk.Label(base, text="Mensagem criptografada", font=('Arial', 18))
-    label2.pack(padx=20, pady=20)
+    label8 = tk.Label(base, text="Chave", font=('Arial', 18))
+    label8.pack(padx=20, pady=5)
 
-    label3 = tk.Label(base, height = 5, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
-    label3.pack()
+    textbox_chave = tk.Text(base, height=1, font=('Arial', 18))
+    textbox_chave.pack(padx=20)
+
+    label2 = tk.Label(base, text="Mensagem criptografada", font=('Arial', 18))
+    label2.pack(padx=20, pady=5)
+
+
+    label3 = tk.Label(base, height=4, width=70, text="    ", font=('Arial', 18), background='grey')
+    label3.pack(padx=10, pady=5)
 
     label4 = tk.Label(base, height = 1, text="Binário", font=('Arial', 18))
     label4.pack()
 
-    label5 = tk.Label(base, height = 10, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
-    label5.pack()
+    label5 = tk.Label(base, height=4, width=70, text="    ", font=('Arial', 18), background='grey')
+    label5.pack(padx=10, pady=5)
 
     button = tk.Button(base, text="Enviar", command=enviar_mensagem)
-    button.pack(pady=20)
+    button.pack(pady=5)
+
+    label6 = tk.Label(base, width=90, height=1, text="Host", font=('Arial', 18))
+    label6.pack(padx=1, pady=1)
+
+    textbox_host = tk.Text(base, height=1, font=('Arial', 18))
+    textbox_host.pack(padx=20)
+
+    label7 = tk.Label(base, width=90, height=1, text="Porta", font=('Arial', 18))
+    label7.pack(padx=1, pady=1)
+
+    textbox_port = tk.Text(base, height=1, font=('Arial', 18))
+    textbox_port.pack(padx=20)
 
     server_var = tk.BooleanVar()
     check = tk.Checkbutton(base, text="Servidor", variable=server_var, command=toggle_server)
