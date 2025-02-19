@@ -97,48 +97,37 @@ def start_sender(receiver_host='0.0.0.0', receiver_port=5552):
     sender_socket.close()
 
 if __name__ == "__main__":
-    # Criando a thread da comunicação
     thread = threading.Thread(target=start_sender, daemon=True)
 
-    # Criando a interface gráfica
     base = tk.Tk()
     base.geometry("900x900")
     base.title("Receiver")
 
-    # Criando a label de indentificação
     label = tk.Label(base, text="Mensagem", font=('Arial', 18))
     label.pack(padx=20, pady=20)
 
-    # Criando a variável de envio
     send_var = tk.BooleanVar()
 
-    # Criando a caixa de texto que o usuário preenche
     textbox = tk.Text(base, height=1, font=('Arial', 18))
     textbox.pack(padx=20)
 
-    # Criando a label de indentificação
     label2 = tk.Label(base, text="Mensagem criptografada", font=('Arial', 18))
     label2.pack(padx=20, pady=20)
 
-    # Criando a label de indentificação
     label3 = tk.Label(base, height = 5, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
     label3.pack()
 
-    # Criando a label de indentificação
     label4 = tk.Label(base, height = 1, text="Binário", font=('Arial', 18))
     label4.pack()
 
     label5 = tk.Label(base, height = 10, text="    ", font=('Arial', 18), background = 'grey', wraplength=900, justify="left")
     label5.pack()
 
-    # Criando o button que o usuário vai clicar para enviar
     button = tk.Button(base, text="Enviar", command=enviar_mensagem)
     button.pack(pady=20)
 
-    # Checkbutton para ativar/desativar o servidor
     server_var = tk.BooleanVar()
     check = tk.Checkbutton(base, text="Servidor", variable=server_var, command=toggle_server)
     check.pack()
 
-    # Loop principal
     base.mainloop()
